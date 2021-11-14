@@ -10,6 +10,9 @@
 """
 # Importing ibraries .
 import nltk
+import tkinter
+import tkinter as tk
+nltk.download('averaged_perceptron_tagger')
 import os
 import sys
 from termcolor import colored, cprint
@@ -257,6 +260,7 @@ def correct(sentence):
 def prog(sent):
     start = timeit.default_timer()
     # print("\nInput: " + sent)
+   
     print(colored('correcting'+'.'*5,'green'))
     for i in range(100):
       j=1
@@ -266,8 +270,21 @@ def prog(sent):
     sp=' '.join(stry)
     stop = timeit.default_timer()
     sp1=nltk.word_tokenize(sp)
+    print(colored('Lemmetization:','blue'))
+    print(lemmatizer.lemmatize(sp),"\n")
+    print(colored('POS Tagging:','blue'))
+    grammar = ('''
+    NP: {<DT>?<JJ>*<NN>} # NP
+    ''')
+    chunkParser = nltk.RegexpParser(grammar)
+    tagged = nltk.pos_tag(nltk.word_tokenize(sp))
+    tree = chunkParser.parse(tagged)
+    for subtree in tree.subtrees():
+        print(subtree)
+    print("\n")
     print(colored('corrected sentence in form of token:','blue'))
     print(sp1,"\n")
+    tree.draw()
     print(colored('corrected: ','green'))
     print(sp+"\n")
     y.append(abs(stop-start) )  
