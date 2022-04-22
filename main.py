@@ -1,11 +1,8 @@
 
 """
 # Error Detection and correction with RNN 
-
 #### Aryan Dokania (19BCE2534)
 #### Tanmay Mandal (19BCE0475)
-#### Dhananjay Gupta (19BCE0599)
-#### Adarsh Mishra (19BCE0437)
 
 """
 # Importing ibraries .
@@ -185,7 +182,24 @@ cf_biag = nltk.ConditionalFreqDist(nltk.bigrams(doc))
 cf_biag = nltk.ConditionalProbDist(cf_biag, nltk.MLEProbDist)
 f="gradient"
 str="prog"
-
+ # BERT MODEL MODULE ADDITION TO IMPROVE BETTER 
+def Bret():   
+    logger = logging.getLogger()
+    device_cuda = torch.device("cuda")
+    metrics = [{'name': 'accuracy', 'function': accuracy}]
+    learner = BertLearner.from_pretrained_model(
+                            databunch,
+                            pretrained_path='bert-base-uncased',
+                            metrics=metrics,
+                            device=device_cuda,
+                            logger=logger,
+                            output_dir=OUTPUT_DIR,
+                            finetuned_wgts_path=None,
+                            warmup_steps=500,
+                            multi_gpu=True,
+                            is_fp16=True,
+                            multi_label=False,
+                            logging_steps=50)
 def correct(sentence):
     #to show tokens
     print(colored('Tokenized sentence: ','blue'))
@@ -193,14 +207,6 @@ def correct(sentence):
 
     #Lemmeztization 
     s=lemmatizer.lemmatize(proging)
-
-      # BERT MODEL MODULE ADDITION PENDING TO IMPROVE BETTER 
-   #
-   #
-   #
-   #
-   #
-
     sentence1=nltk.word_tokenize(s)
     corrected = []
     cnt = 0
@@ -284,9 +290,9 @@ def prog(sent):
     print("\n")
     print(colored('corrected sentence in form of token:','blue'))
     print(sp1,"\n")
-    tree.draw()
     print(colored('corrected: ','green'))
     print(sp+"\n")
+    tree.draw()
     y.append(abs(stop-start) )  
 y =[]
 
